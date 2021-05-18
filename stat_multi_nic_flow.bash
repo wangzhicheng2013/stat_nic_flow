@@ -12,12 +12,14 @@ do
   for (( i = 0; i < ${#ETHS[@]}; i++ ))
   do
 	single_current_flow=$(cat /proc/net/dev | grep ${ETHS[$i]} | sed 's/:/ /g' | awk '{print $2}')
-	sleep 1
-	single_next_flow=$(cat /proc/net/dev | grep ${ETHS[$i]} | sed 's/:/ /g' | awk '{print $2}')
 	current_flow=$((current_flow+single_current_flow))
+  done
+  sleep 1
+  for (( i = 0; i < ${#ETHS[@]}; i++ ))
+  do
+	single_next_flow=$(cat /proc/net/dev | grep ${ETHS[$i]} | sed 's/:/ /g' | awk '{print $2}')
 	next_flow=$((next_flow+single_next_flow))
   done
-  
   clear
   echo -e "\t\t\t  RX \t\t  TIME"
   
